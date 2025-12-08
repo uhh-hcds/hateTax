@@ -1,0 +1,2 @@
+# hateTax
+Hate Speech Taxonomy
