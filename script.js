@@ -1,4 +1,5 @@
-// script.js - replace your existing script.js with this file
+
+let currentFontSize = 12; 
 document.addEventListener("DOMContentLoaded", () => {
 const merged = {
   name: "Hate Speech Taxonomy",
@@ -2198,12 +2199,33 @@ let data =merged;                    // default
   let nodeIdCounter = 0;
   let selectedNode = null;
   let radial = false;
+  const topLevelColors = {
+  "Platform Policy Taxonomy": "#4f6ef7",   // blue
+  "Country Regulation Taxonomy": "#e57373", // red
+  "Hate Speech Dataset Taxonomy": "#81c784" // green
+};
+function getTopLevelColor(d) {
+  // climb to depth 1 ancestor
+  let node = d;
+  while (node.depth > 1 && node.parent) {
+    node = node.parent;
+  }
+
+  // if this is depth 1 and exists in map → apply color
+  if (node.depth === 1 && topLevelColors[node.data.name]) {
+    return topLevelColors[node.data.name];
+  }
+
+  return null;
+}
 
   // Tooltip
   const tooltip = d3.select("body")
     .append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
+    
+
 
   // ---------- Init tree ----------
   function initTree() {
@@ -2214,7 +2236,8 @@ let data =merged;                    // default
     const width = container.clientWidth || 1200;
     const height = container.clientHeight || 800;
 
-    svg.attr("width", width).attr("height", height);
+    svg
+    .style("height", container.clientHeight + "px");
 
     g = svg.append("g").attr("transform", `translate(0,0)`);
 
@@ -2223,7 +2246,7 @@ let data =merged;                    // default
       .on("zoom", (event) => { g.attr("transform", event.transform); });
     svg.call(zoom);
 
-    treeLayout = d3.tree().size([height - 100, width - 40]);
+     treeLayout = d3.tree().size([height, width]);   
 
     root = d3.hierarchy(data);
     root.x0 = height / 2;
@@ -2255,23 +2278,18 @@ let data =merged;                    // default
   }
 
   // ---------- Rendering update ----------
-  function update(source) {
-  const container = svg.node().parentNode;
+function update(source) {
+ const container = svg.node().parentNode;
   const height = container.clientHeight || 800;
 
-  // ✅ Dynamic width based on tree depth
+  svg.style("height", height + "px");
+
   const maxDepth = d3.max(root.descendants(), d => d.depth) || 1;
-  const horizSpacing = 260;
-  const dynamicWidth = maxDepth * horizSpacing + 400;
 
-  // ✅ Let D3 calculate layout using dynamic width
-  treeLayout.nodeSize([15, 300]);
+  const containerWidth = svg.node().parentNode.clientWidth;
+  treeLayout.nodeSize([40, containerWidth / (maxDepth + 1)]);
 
-
-  // ✅ Make SVG wide enough for horizontal scrolling
-  svg.attr("width", dynamicWidth + 500);
-
-  const treeData = treeLayout(root);
+  const treeData = treeLayout(root);  // now uses correct spacing
   const nodes = treeData.descendants();
   const links = treeData.links();
 
@@ -2314,7 +2332,11 @@ let data =merged;                    // default
 
   nodeEnter.append("circle")
     .attr("r", 1e-6)
-    .style("fill", d => d._children ? "#ffb74d" : "#4f6ef7")
+    .style("fill", d => {
+    const topColor = getTopLevelColor(d);
+    if (topColor) return topColor;
+    return d._children ? "#ffb74d" : "#4f6ef7";
+})
     .style("stroke", "#fff")
     .style("stroke-width", 2);
 
@@ -2330,8 +2352,13 @@ let data =merged;                    // default
     .attr("transform", d => `translate(${d.y},${d.x})`);
 
   nodeUpdate.select("circle")
-    .attr("r", 7)
-    .style("fill", d => d._children ? "#ffb74d" : "#4f6ef7");
+  .attr("r", 7)
+  .style("fill", d => {
+    const topColor = getTopLevelColor(d);
+    if (topColor) return topColor;
+    return d._children ? "#ffb74d" : "#4f6ef7";
+  });
+
 
   // ---- EXIT NODES ----
   const nodeExit = node.exit();
@@ -2366,6 +2393,7 @@ let data =merged;                    // default
     d.x0 = d.x;
     d.y0 = d.y;
   });
+d3.selectAll("g.node text").style("font-size", currentFontSize + "px");
 }
 
 
@@ -2559,6 +2587,34 @@ function searchAndBuildResults(query) {
   }
 
   // ---------- Wire UI controls ----------
+
+  // ---- Increase SVG Node Font Size ----
+    const increaseFontBtn = document.getElementById("increaseFontBtn");
+    if (increaseFontBtn) {
+      increaseFontBtn.addEventListener("click", () => {
+
+        currentFontSize += 2;  // increase by 2px each click
+
+        // Apply to ALL existing node text labels
+        d3.selectAll("g.node text")
+          .style("font-size", currentFontSize + "px");
+
+      });
+    }
+
+  // ---- Decrease SVG Node Font Size ----
+    const decreaseFontBtn = document.getElementById("decreaseFontBtn");
+    if (decreaseFontBtn) {
+      decreaseFontBtn.addEventListener("click", () => {
+
+        // Prevent shrinking too much
+        currentFontSize = Math.max(6, currentFontSize - 2);
+
+        d3.selectAll("g.node text")
+          .style("font-size", currentFontSize + "px");
+
+      });
+    }
   // Collapsible panel sections (keeps your previous markup behavior)
   document.querySelectorAll(".panel-section").forEach(section => {
     const header = section.querySelector(".panel-header");
@@ -2579,9 +2635,28 @@ function searchAndBuildResults(query) {
   if (rightPanel) {
     rightPanel.style.display = "none";
     if (togglePanelBtn) togglePanelBtn.textContent = "Show Panel";
-    if (togglePanelBtn) togglePanelBtn.addEventListener("click", () => {
-      if (rightPanel.style.display === 'none') { rightPanel.style.display = 'block'; togglePanelBtn.textContent = "Hide Panel"; }
-      else { rightPanel.style.display = 'none'; togglePanelBtn.textContent = "Show Panel"; }
+    if (togglePanelBtn) 
+        togglePanelBtn.addEventListener("click", () => {
+
+      const leftPanel = document.querySelector(".left");
+
+      if (rightPanel.style.display === "none") {
+        rightPanel.style.display = "block";
+        togglePanelBtn.textContent = "Hide Panel";
+      } else {
+        rightPanel.style.display = "none";
+        togglePanelBtn.textContent = "Show Panel";
+      }
+
+      // force reflow & resize of tree
+      setTimeout(() => {
+        const container = svg.node().parentNode;
+        svg
+           .style("width", "100%")
+            .style("height", "100%");   
+
+        update(root);   // redraw at new width
+      }, 200);
     });
   }
 
@@ -2781,6 +2856,7 @@ function searchAndBuildResults(query) {
     if (selected === "country") data = countryData;
     if (selected === "dataset") data = datasetData;
     if (selected === "merged") data = merged;
+
     g && g.selectAll("*").remove();
     selectedNode = null;
     svg.transition().duration(300).call(zoom.transform, d3.zoomIdentity);
