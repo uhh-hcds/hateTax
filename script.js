@@ -2330,27 +2330,37 @@ function update(source) {
       tooltip.style("opacity", 0);
     });
 
-  nodeEnter.append("text")
+  // ICON (root or category)
+nodeEnter.append("text")
   .attr("class", "node-icon")
-  .attr("dy", 5)
-  .attr("x", -14)
-  .text(d => getTopLevelIcon(d))
-  .style("font-size", "22px");
+  .attr("dy", 8)
+  .attr("x", d => d.depth === 0 ? -20 : -14)
+  .text(d => {
+    const rootIcon = getRootIcon(d);
+    return rootIcon ? rootIcon : getTopLevelIcon(d);
+  })
+  .style("font-size", d => d.depth === 0 ? "40px" : "22px");
 
-  nodeEnter.append("text")
+// LABEL (name text)
+nodeEnter.append("text")
   .attr("class", "node-label")
   .attr("dy", 5)
-  .attr("x", 10)  
+  .attr("x", d => d.depth === 0 ? 25 : 10)
   .text(d => d.data.name)
   .style("font-size", currentFontSize + "px");
+
 
   const nodeUpdate = nodeEnter.merge(node);
   nodeUpdate.transition().duration(350)
     .attr("transform", d => `translate(${d.y},${d.x})`);
 
   nodeUpdate.select("text.node-icon")
-    .text(d => getTopLevelIcon(d))
-    .style("font-size", "20px");
+    .text(d => {
+      const rootIcon = getRootIcon(d);
+      return rootIcon ? rootIcon : getTopLevelIcon(d);
+    })
+    .style("font-size", d => d.depth === 0 ? "40px" : "22px")
+    .attr("x", d => d.depth === 0 ? -20 : -14);
 
 nodeUpdate.select("text.node-label")
   .attr("x", 10)
@@ -2889,6 +2899,13 @@ function searchAndBuildResults(query) {
 
     return "•";  // fallback bullet if something goes wrong
   }
+
+  function getRootIcon(d) {
+      if (d.depth === 0) {
+        return "💢"; // icon for hate speech root
+      }
+      return null;
+    }
 
   // ---------- Initial build ----------
   initTree();
