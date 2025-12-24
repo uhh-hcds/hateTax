@@ -2330,36 +2330,31 @@ function update(source) {
       tooltip.style("opacity", 0);
     });
 
-  nodeEnter.append("circle")
-    .attr("r", 1e-6)
-    .style("fill", d => {
-    const topColor = getTopLevelColor(d);
-    if (topColor) return topColor;
-    return d._children ? "#ffb74d" : "#4f6ef7";
-})
-    .style("stroke", "#fff")
-    .style("stroke-width", 2);
+  nodeEnter.append("text")
+  .attr("class", "node-icon")
+  .attr("dy", 5)
+  .attr("x", -14)
+  .text(d => getTopLevelIcon(d))
+  .style("font-size", "22px");
 
   nodeEnter.append("text")
-    .attr("dy", 4)
-    .attr("x", d => (d.children || d._children) ? -12 : 12)
-    .attr("text-anchor", d => (d.children || d._children) ? "end" : "start")
-    .text(d => d.data.name)
-    .style("font-size", "12px");
+  .attr("class", "node-label")
+  .attr("dy", 5)
+  .attr("x", 10)  
+  .text(d => d.data.name)
+  .style("font-size", currentFontSize + "px");
 
   const nodeUpdate = nodeEnter.merge(node);
   nodeUpdate.transition().duration(350)
     .attr("transform", d => `translate(${d.y},${d.x})`);
 
-  nodeUpdate.select("circle")
-  .attr("r", 7)
-  .style("fill", d => {
-    const topColor = getTopLevelColor(d);
-    if (topColor) return topColor;
-    return d._children ? "#ffb74d" : "#4f6ef7";
-  });
+  nodeUpdate.select("text.node-icon")
+    .text(d => getTopLevelIcon(d))
+    .style("font-size", "20px");
 
-
+nodeUpdate.select("text.node-label")
+  .attr("x", 10)
+  .style("font-size", currentFontSize + "px");
   // ---- EXIT NODES ----
   const nodeExit = node.exit();
   nodeExit.transition().duration(350)
@@ -2877,6 +2872,22 @@ function searchAndBuildResults(query) {
     const nodes = [];
     rootNode.each(d => nodes.push(d));
     return nodes;
+  }
+
+  function getTopLevelIcon(d) {
+    // climb to depth 1 ancestor
+    let node = d;
+    while (node.depth > 1 && node.parent) {
+      node = node.parent;
+    }
+
+    if (node.depth === 1) {
+      if (node.data.name === "Platform Policy Taxonomy") return "📱";
+      if (node.data.name === "Country Regulation Taxonomy") return "🌍";
+      if (node.data.name === "Hate Speech Dataset Taxonomy") return "📚";
+    }
+
+    return "•";  // fallback bullet if something goes wrong
   }
 
   // ---------- Initial build ----------
