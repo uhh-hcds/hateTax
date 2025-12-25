@@ -124,8 +124,8 @@ header {
 
 .link {
   fill: none;
-  stroke: #ccc;
-  stroke-width: 2px;
+  stroke: hwb(264 73% 21%);        /* red color */
+  stroke-width: 3px;  /* double thickness */
 }
 
 .tooltip {
