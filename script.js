@@ -1969,117 +1969,125 @@ const datasetData = {
       "name": "Classes",
       "definition": "Classification labels used across hate speech datasets.",
       "children": [
-         {
-          "name": "hate, abusive, neutral, indeterminate",
+        {
+          "name": "Binary Classification",
+          "definition": "Two-class hate, abuse, or toxicity detection.",
           "children": [
-             {"id":1, "name": "AFRIHATE: A Multilingual Collection of Hate Speech and Abusive Language Datasets for African Languages"}
+            {
+              "name": "Hate vs Non-Hate",
+              "aliases": ["hate, non-hate"],
+              "children": [
+                {"id":2,"name": "Nepali Transformers@NLU of Devanagari Script Languages 2025: Detection of Language, Hate Speech and Targets"},
+                {"id":5,"name": "Multi3Hate: Multimodal, Multilingual, and Multicultural Hate Speech Detection with Vision–Language Models"},
+                {"id":9,"name": "Detecting Hate Speech in Amharic Using Multimodal Analysis of Social Media Memes"},
+                {"id":11,"name": "HateBRXplain: A Benchmark Dataset with Human-Annotated Rationales for Explainable Hate Speech Detection in Brazilian Portuguese"},
+                {"id":12,"name": "Towards Explainable Hate Speech Detection"},
+                {"id":18,"name": "Robust Hate Speech Detection in Social Media: A Cross-Dataset Empirical Evaluation"},
+                {"id":26,"name": "Hate Speech Classification in Bulgarian"},
+                {"id":29,"name": "Hate Speech Classifiers are Culturally Insensitive"},
+                {"id":30,"name": "STATE ToxiCN: A Benchmark for Span-level Target-Aware Toxicity Extraction in Chinese Hate Speech Detection"}
+              ]
+            },
+            {
+              "name": "Abusive vs Non-Abusive",
+              "aliases": ["abusive, non abusive"],
+              "children": [
+                {"id":17,"name": "Towards Cross-Lingual Audio Abuse Detection in Low-Resource Settings with Few-Shot Learning"},
+                {"id":28,"name": "AbuseAnalyzer: Abuse Detection, Severity and Target Prediction for Gab Posts"}
+              ]
+            },
+            {
+              "name": "Toxic vs Non-Toxic",
+              "aliases": ["toxic (yes), toxic (no)"],
+              "children": [
+                {"id":16,"name": "ToxVidLM: A Multimodal Framework for Toxicity Detection in Code-Mixed Videos"}
+              ]
+            }
           ]
-         },
-         {
-          "name": "Hate, Non-Hate",
+        },
+        {
+          "name": "Multi-class Hate / Offensiveness",
+          "definition": "Multi-class schemes separating hate, offensiveness, and neutrality.",
           "children": [
-             {"id":2, "name": "Nepali Transformers@NLU of Devanagari Script Languages 2025: Detection of Language, Hate Speech and Targets"},
-             {"id":5, "name": "Multi3Hate: Multimodal, Multilingual, and Multicultural Hate Speech Detection with Vision–Language Models"},
-             {"id":9, "name": "Detecting Hate Speech in Amharic Using Multimodal Analysis of Social Media Memes"},
-             {"id":11, "name": "HateBRXplain: A Benchmark Dataset with Human-Annotated Rationales for Explainable Hate Speech Detection in Brazilian Portuguese"},
-             {"id":12, "name": "Towards Explainable Hate Speech Detection"},
-             {"id":18, "name": "Robust Hate Speech Detection in Social Media: A Cross-Dataset Empirical Evaluation"},
-             {"id":26, "name": "Hate Speech Classification in Bulgarian"},
-             {"id":29, "name": "Hate Speech Classifiers are Culturally Insensitive"},
-             {"id":30, "name": "STATE ToxiCN: A Benchmark for Span-level Target-Aware Toxicity Extraction in Chinese Hate Speech Detection"}
+            {
+              "name": "Hate / Offensive / Neutral / Uncertain",
+              "aliases": [
+                "hate, abusive, neutral, indeterminate",
+                "hate, offensive, normal, unsure",
+                "hate, offensive, normal, undecided",
+                "hate, offensive, normal, indeterminate",
+                "hate, offensive, normal"]
+              "children": [
+                {"id":1,"name": "AFRIHATE: A Multilingual Collection of Hate Speech and Abusive Language Datasets for African Languages"},
+                {"id":6,"name": "Exploring Boundaries and Intensities in Offensive and Hate Speech: Unveiling the Complex Spectrum of Social Media Discourse"},
+                {"id":7,"name": "The 5Js in Ethiopia: Amharic Hate Speech Data Annotation Using Toloka Crowdsourcing Platform"},
+                {"id":8,"name": "Exploring Amharic Hate Speech Data Collection and Classification Approaches"},
+                {"id":10,"name": "HateXplain: A Benchmark Dataset for Explainable Hate Speech Detection"}
+              ]
+            },
+            {
+              "name": "No / Mild / Explicit Offensiveness",
+              "children": [
+                {"id":20,"name": "K-HATERS: A Hate Speech Detection Corpus in Korean with Target-Specific Ratings"}
+              ]
+            }
           ]
-         },
-         {
-          "name": "hate, offensive, normal, indeterminate",
+        },
+        {
+          "name": "Explicitness-based Classification",
+          "definition": "Distinguishes implicit and explicit hate speech.",
           "children": [
-             {"id":6, "name": "Exploring Boundaries and Intensities in Offensive and Hate Speech: Unveiling the Complex Spectrum of Social Media Discourse"}
+            {
+              "name": "Explicit Hate / Implicit Hate / Non-Hate",
+              "children": [
+                {"id":13,"name": "A Benchmark Dataset and Two-stage Contrastive Learning Framework for Implicit Hate Speech Detection in Videos"},
+                {"id":15,"name": "Model-Dependent Moderation: Inconsistencies in Hate Speech Detection Across LLM-based Systems"}
+              ]
+            }
           ]
-         },
-         {
-          "name": "hate, offensive, normal, unsure",
+        },
+        {
+          "name": "Harm-based Classification",
+          "definition": "Focuses on perceived harm rather than hate identity.",
           "children": [
-             {"id":7, "name": "The 5Js in Ethiopia: Amharic Hate Speech Data Annotation Using Toloka Crowdsourcing Platform"}
-          ] 
-         },
-         {
-          "name": "hate, offensive, normal",
-          "children": [
-             {"id":8, "name": "Exploring Amharic Hate Speech Data Collection and Classification Approaches"}
+            {
+              "name": "Harmful vs Not Harmful",
+              "children": [
+                {"id":19,"name": "Target-Based Offensive Language Identification"}
+              ]
+            },
+            {
+              "name": "Harmful / Toxic / Offensive",
+              "children": [
+                {"id":25,"name": "Measuring Harmful Representations in Scandinavian Language Models"}
+              ]
+            }
           ]
-         },
-         {
-          "name": "hate, offensive, normal, undecided",
+        },
+        {
+          "name": "Specialized / Task-specific Schemas",
+          "definition": "Non-standard or task-specific label sets.",
           "children": [
-             {"id":10, "name": "HateXplain: A Benchmark Dataset for Explainable Hate Speech Detection"}
+            {
+              "name": "Token-level Hate / Profanity",
+              "children": [
+                {"id":14,"name": "Word-Level Detection of Code-Mixed Hate Speech with Multilingual Domain Transfer"}
+              ]
+            },
+            {
+              "name": "Fake / Real / Hate / Non-Hate",
+              "children": [
+                {"id":27,"name": "Unpacking Faux-Hate: Addressing Faux-Hate Detection and Severity Prediction in Code-Mixed Hinglish Text with HingRoBERTa and Class Weighting Techniques"}
+              ]
+            },
+            {
+              "name": "Hate / Non-Hate / Sexist / Non-Sexist",
+              "children": [
+                {"id":24,"name": "Multilingual and Multitarget Hate Speech Detection in Tweets"}
+              ]
+            }
           ]
-         },
-         {
-          "name": "Hateful Neutral B-B (a bad word) and B (Profane continuation)",
-          "children": [
-             {"id":14, "name": "Word-Level Detection of Code-Mixed Hate Speech with Multilingual Domain Transfer"}
-          ]
-         },
-         {
-          "name": "Explicit hate, Implicit hate, Non-hate",
-          "children": [
-             {"id":13, "name":"A Benchmark Dataset and Two-stage Contrastive Learning Framework for Implicit Hate Speech Detection in Videos"},  
-             {"id":15, "name": "Model-Dependent Moderation: Inconsistencies in Hate Speech Detection Across LLM-based Systems"}
-          ]
-         },
-         {
-          "name": "Toxic (Yes), Toxic (No)",
-          "children": [
-             {"id":16, "name": "ToxVidLM: A Multimodal Framework for Toxicity Detection in Code-Mixed Videos"}
-          ]
-         },
-         {
-          "name": "Abusive, Non Abusive",
-          "children": [
-             {"id":17, "name": "Towards Cross-Lingual Audio Abuse Detection in Low-Resource Settings with Few-Shot Learning"}
-          ]
-         },
-         {
-          "name": "Harmful, Not Harmful",
-          "children": [
-             {"id":19, "name": "Target-Based Offensive Language Identification"}
-          ]
-         },
-         {
-          "name": "No offensiveness, Mildly offensive, Explicitly offensive",
-          "children": [
-             {"id":20, "name": "K-HATERS: A Hate Speech Detection Corpus in Korean with Target-Specific Ratings"}
-          ]
-         },
-         {
-          "name": "Hate, Offensive, Normal",
-          "children": [
-             {"id":21, "name": "Hate Speech and Offensive Language Detection in Bengali"}
-          ]
-         },
-         {
-          "name": "hate, non Hate, sexist, nonSexist",
-          "children": [
-             {"id":24, "name": "Multilingual and Multitarget Hate Speech Detection in Tweets"}
-          ]
-         },
-         {
-          "name": "Harmful, toxic, offensive",
-          "children": [
-             {"id":25, "name": "Measuring Harmful Representations in Scandinavian Language Models"}
-          ]
-         },
-         {
-          "name": "Fake, Real, Hate, Non-hate",
-          "children": [
-             {"id":27, "name": "Unpacking Faux-Hate: Addressing Faux-Hate Detection and Severity Prediction in Code-Mixed Hinglish Text with HingRoBERTa and Class Weighting Techniques"}
-          ]
-         },
-         {
-          "name": "abusive, non abusive",
-          "children": [
-             {"id":28, "name": "AbuseAnalyzer: Abuse Detection, Severity and Target Prediction for Gab Posts"}
-          ]
-         }
+        }
       ]
     },
     {
@@ -2914,3 +2922,4 @@ function searchAndBuildResults(query) {
 
 
 }); // DOMContentLoaded end
+
