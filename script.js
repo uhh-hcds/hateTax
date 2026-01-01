@@ -886,7 +886,7 @@ const merged = {
               "children": [
                 {
                   "name": "Hate / Offensive / Neutral / Uncertain",
-                  "definition": "Uncertainvis not an original dataset label but a harmonized category introduced to represent ambiguous annotations (e.g., indeterminate, unsure, undecided) across heterogeneous datasets.  ",   
+                  "definition": "Uncertain: Used when datasets explicitly indicate annotation ambiguity (e.g., indeterminate, unsure, undecided). This label is introduced only for taxonomy harmonization.",   
                   "children": [
                     {"id":1,"name": "AFRIHATE: A Multilingual Collection of Hate Speech and Abusive Language Datasets for African Languages"},
                     {"id":6,"name": "Exploring Boundaries and Intensities in Offensive and Hate Speech: Unveiling the Complex Spectrum of Social Media Discourse"},
@@ -2005,7 +2005,7 @@ const datasetData = {
           "children": [
             {
               "name": "Hate / Offensive / Neutral / Uncertain",
-              "definition": "Uncertain is not an original dataset label but a harmonized category introduced to represent ambiguous annotations (e.g., indeterminate, unsure, undecided) across heterogeneous datasets.",
+              "definition": "Uncertain: Used when datasets explicitly indicate annotation ambiguity (e.g., indeterminate, unsure, undecided). This label is introduced only for taxonomy harmonization.",
               "children": [
                 {"id":1,"name": "AFRIHATE: A Multilingual Collection of Hate Speech and Abusive Language Datasets for African Languages"},
                 {"id":6,"name": "Exploring Boundaries and Intensities in Offensive and Hate Speech: Unveiling the Complex Spectrum of Social Media Discourse"},
@@ -2911,6 +2911,7 @@ function searchAndBuildResults(query) {
 
 
 }); // DOMContentLoaded end
+
 
 
 
