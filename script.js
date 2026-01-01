@@ -850,7 +850,7 @@ const merged = {
               "children": [
                 {
                   "name": "Hate vs Non-Hate",
-                  "aliases": ["hate, non-hate"],
+                  "definition": ["hate, non-hate"],
                   "children": [
                     {"id":2,"name": "Nepali Transformers@NLU of Devanagari Script Languages 2025: Detection of Language, Hate Speech and Targets"},
                     {"id":5,"name": "Multi3Hate: Multimodal, Multilingual, and Multicultural Hate Speech Detection with Vision–Language Models"},
@@ -865,7 +865,7 @@ const merged = {
                 },
                 {
                   "name": "Abusive vs Non-Abusive",
-                  "aliases": ["abusive, non abusive"],
+                  "definition": ["abusive, non abusive"],
                   "children": [
                     {"id":17,"name": "Towards Cross-Lingual Audio Abuse Detection in Low-Resource Settings with Few-Shot Learning"},
                     {"id":28,"name": "AbuseAnalyzer: Abuse Detection, Severity and Target Prediction for Gab Posts"}
@@ -873,7 +873,7 @@ const merged = {
                 },
                 {
                   "name": "Toxic vs Non-Toxic",
-                  "aliases": ["toxic (yes), toxic (no)"],
+                  "definition": ["toxic (yes), toxic (no)"],
                   "children": [
                     {"id":16,"name": "ToxVidLM: A Multimodal Framework for Toxicity Detection in Code-Mixed Videos"}
                   ]
@@ -886,13 +886,13 @@ const merged = {
               "children": [
                 {
                   "name": "Hate / Offensive / Neutral / Uncertain",
-                  "aliases": [
+                  "definition": "[
                     "hate, abusive, neutral, indeterminate",
                     "hate, offensive, normal, unsure",
                     "hate, offensive, normal, undecided",
                     "hate, offensive, normal, indeterminate",
-                    "hate, offensive, normal"   
-                  ],   
+                    "hate, offensive, normal"   ]
+                  ",   
                   "children": [
                     {"id":1,"name": "AFRIHATE: A Multilingual Collection of Hate Speech and Abusive Language Datasets for African Languages"},
                     {"id":6,"name": "Exploring Boundaries and Intensities in Offensive and Hate Speech: Unveiling the Complex Spectrum of Social Media Discourse"},
@@ -2922,5 +2922,6 @@ function searchAndBuildResults(query) {
 
 
 }); // DOMContentLoaded end
+
 
 
