@@ -2,13 +2,13 @@
 let currentFontSize = 12; 
 document.addEventListener("DOMContentLoaded", () => {
 const merged = {
-  name: "Hate Speech Taxonomy",
-  definition: "A hierarchical taxonomy that organizes platform policies, country regulations, and hate speech datasets.",
-  children: [
+  "name": "Hate Speech Taxonomy",
+  "definition": "A hierarchical taxonomy that organizes platform policies, country regulations, and hate speech datasets.",
+  "children": [
     {
-      name: "Platform Policy Taxonomy",
-      definition: "A multilayer taxonomy describing how platforms define, regulate, enforce, and report hate speech policies.",
-      children: [
+      "name": "Platform Policy Taxonomy",
+      "definition": "A multilayer taxonomy describing how platforms define, regulate, enforce, and report hate speech policies.",
+      "children": [
         {
           "name": "Conceptual",
           "definition": "Clarifies what counts as hate speech and which traits or groups are protected on each platform.",
@@ -2911,6 +2911,7 @@ function searchAndBuildResults(query) {
 
 
 }); // DOMContentLoaded end
+
 
 
 
