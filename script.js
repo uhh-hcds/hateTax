@@ -2011,12 +2011,12 @@ const datasetData = {
           "children": [
             {
               "name": "Hate / Offensive / Neutral / Uncertain",
-              "definition": "[
+              "definition": "
                 "hate, abusive, neutral, indeterminate",
                 "hate, offensive, normal, unsure",
                 "hate, offensive, normal, undecided",
                 "hate, offensive, normal, indeterminate",
-                "hate, offensive, normal"]",
+                "hate, offensive, normal."",
               "children": [
                 {"id":1,"name": "AFRIHATE: A Multilingual Collection of Hate Speech and Abusive Language Datasets for African Languages"},
                 {"id":6,"name": "Exploring Boundaries and Intensities in Offensive and Hate Speech: Unveiling the Complex Spectrum of Social Media Discourse"},
@@ -2922,6 +2922,7 @@ function searchAndBuildResults(query) {
 
 
 }); // DOMContentLoaded end
+
 
 
 
