@@ -2835,22 +2835,38 @@ function searchAndBuildResults(query) {
     link.click();
   });
 
-  // Download profile PDF using jsPDF (assumes jsPDF loaded)
-  const downloadPdf = document.getElementById("downloadProfilePdf");
-  if (downloadPdf) downloadPdf.addEventListener("click", () => {
-    if (!window.jspdf) {
-      alert("jsPDF not found. Include jsPDF to enable PDF download.");
-      return;
-    }
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    const content = document.getElementById("profileContent").innerText;
-    const lines = doc.splitTextToSize(content, 180);
-    doc.setFontSize(11);
-    doc.text(lines, 10, 10);
-    const title = (document.getElementById("profileTitle").textContent || "Profile").replace(/\s+/g, "_");
-    doc.save(`${title}.pdf`);
-  });
+  const downloadJson = document.getElementById("downloadProfilePdf");
+  if (downloadJson) downloadJson.addEventListener("click", () => {
+
+  const queryInput = document.getElementById("platformSearch");
+  if (!queryInput || !queryInput.value.trim()) {
+    alert("No search query found.");
+    return;
+  }
+
+  const query = queryInput.value.trim();
+  const result = searchAndBuildResults(query);
+
+  const jsonData = {
+    taxonomy: result.taxonomy,
+    query: query,
+    results: result.groups
+  };
+
+  const blob = new Blob(
+    [JSON.stringify(jsonData, null, 2)],
+    { type: "application/json" }
+  );
+
+  const fileName = `${query.replace(/\s+/g, "_")}.json`;
+
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = fileName;
+  link.click();
+
+  URL.revokeObjectURL(link.href);
+});
 
   // taxonomy selector switches the base data and rebuilds tree
   const taxonomySelector = document.getElementById("taxonomySelector");
@@ -2911,7 +2927,6 @@ function searchAndBuildResults(query) {
 
 
 }); // DOMContentLoaded end
-
 
 
 
