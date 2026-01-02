@@ -1,3 +1,4 @@
+
 let currentFontSize = 12; 
 document.addEventListener("DOMContentLoaded", () => {
 const merged = {
@@ -2185,41 +2186,6 @@ const datasetData = {
 
 
 
-let data =merged;                    // default
-  const svg = d3.select("#tree");
-  let g; // group for pan/zoom content
-  let zoom;
-  let treeLayout;
-  let root;
-  let nodeIdCounter = 0;
-  let selectedNode = null;
-  let radial = false;
-  const topLevelColors = {
-  "Platform Policy Taxonomy": "#4f6ef7",   // blue
-  "Country Regulation Taxonomy": "#e57373", // red
-  "Hate Speech Dataset Taxonomy": "#81c784" // green
-};
-function getTopLevelColor(d) {
-  // climb to depth 1 ancestor
-  let node = d;
-  while (node.depth > 1 && node.parent) {
-    node = node.parent;
-  }
-
-  // if this is depth 1 and exists in map → apply color
-  if (node.depth === 1 && topLevelColors[node.data.name]) {
-    return topLevelColors[node.data.name];
-  }
-
-  return null;
-}
-
-  // Tooltip
-  const tooltip = d3.select("body")
-    .append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
-    
 
 
 
@@ -2985,10 +2951,6 @@ function renderSearchPopup(query) {
 
 
 }); // DOMContentLoaded end
-
-
-
-
 
 
 
