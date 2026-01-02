@@ -1,4 +1,3 @@
-
 let currentFontSize = 12; 
 document.addEventListener("DOMContentLoaded", () => {
 const merged = {
@@ -252,9 +251,9 @@ const merged = {
       ]
     },
     {
-      name: "Country Regulation Taxonomy",
-      definition: "A collection of regulations that countries have proclaimed regarding hate speech",
-      children: [
+      "name": "Country Regulation Taxonomy",
+      "definition": "A collection of regulations that countries have proclaimed regarding hate speech",
+      "children": [
         {
           "name": "Exceptional Cases",
           "definition": "Certain exceptions exist under which expressions, though offensive or provocative, are not legally defined as hate speech",
@@ -2951,6 +2950,7 @@ function renderSearchPopup(query) {
 
 
 }); // DOMContentLoaded end
+
 
 
 
