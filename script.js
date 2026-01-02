@@ -1,4 +1,3 @@
-
 let currentFontSize = 12; 
 document.addEventListener("DOMContentLoaded", () => {
 const merged = {
@@ -21,7 +20,7 @@ const merged = {
                   "name": "Legalistic Definitions",
                   "definition": "Definitions grounded in protected characteristics under international human rights frameworks.",
                   "children": [
-                    { "name": "Facebook, TikTok, Twitter/X", "definition": "Platforms using legalistic, rights-based definitions of hate speech." }
+                    { "name": "Facebook, TikTok, X/Twitter", "definition": "Platforms using legalistic, rights-based definitions of hate speech." }
                   ]
                 },
                 { 
@@ -48,14 +47,14 @@ const merged = {
                   "name": "Core Traits",
                   "definition": "Race, religion, gender, sexual orientation—covered by all major platforms.",
                   "children": [
-                    { "name": "TikTok, Bluesky, Twitter/X, Gab, Telegram, Reddit, Facebook", "definition": "Every platform includes a baseline set of core protected attributes." }
+                    { "name": "All platforms", "definition": "Every platform includes a baseline set of core protected attributes." }
                   ]
                 },
                 { 
                   "name": "Extended Traits",
                   "definition": "Additional traits such as disability, caste, disease, immigration status, or political affiliation.",
                   "children": [
-                    { "name": "TikTok, Bluesky, Twitter/X", "definition": "Platforms with broader protections beyond core traits." }
+                    { "name": "TikTok, Bluesky, X/Twitter", "definition": "Platforms with broader protections beyond core traits." }
                   ]
                 }
               ]
@@ -101,7 +100,7 @@ const merged = {
                   "name": "Contextual Balance",
                   "definition": "Moderation decisions consider satire, reporting, education, and intent.",
                   "children": [
-                    { "name": "Reddit, Bluesky, Twitter/X", "definition": "Platforms considering contextual cues before acting against content." }
+                    { "name": "Reddit, Bluesky, X", "definition": "Platforms considering contextual cues before acting against content." }
                   ]
                 },
                 { 
@@ -230,14 +229,14 @@ const merged = {
               "name": "High Transparency",
               "definition": "Regular enforcement reports, research APIs, and structured oversight.",
               "children": [
-                { "name": "Facebook, TikTok", "definition": "Platforms with strong reporting and oversight mechanisms." }
+                { "name": "Meta, TikTok", "definition": "Platforms with strong reporting and oversight mechanisms." }
               ]
             },
             { 
               "name": "Moderate Transparency",
               "definition": "Some public reports and partial data access.",
               "children": [
-                { "name": "Reddit, Twitter/X", "definition": "Provide limited reports and restricted data access." }
+                { "name": "Reddit, X", "definition": "Provide limited reports and restricted data access." }
               ]
             },
             { 
@@ -1080,7 +1079,7 @@ const platformData = {
               "name": "Legalistic Definitions",
               "definition": "Definitions grounded in protected characteristics under international human rights frameworks.",
               "children": [
-                { "name": "Facebook, TikTok, Twitter/X", "definition": "Platforms using legalistic, rights-based definitions of hate speech." }
+                { "name": "Facebook, TikTok, X/Twitter", "definition": "Platforms using legalistic, rights-based definitions of hate speech." }
               ]
             },
             { 
@@ -1107,14 +1106,14 @@ const platformData = {
               "name": "Core Traits",
               "definition": "Race, religion, gender, sexual orientation—covered by all major platforms.",
               "children": [
-                { "name": "Twitter/X, Gab, Telegram,", "definition": "Every platform includes a baseline set of core protected attributes." }
+                { "name": "All platforms", "definition": "Every platform includes a baseline set of core protected attributes." }
               ]
             },
             { 
               "name": "Extended Traits",
               "definition": "Additional traits such as disability, caste, disease, immigration status, or political affiliation.",
               "children": [
-                { "name": "TikTok, Bluesky, Twitter/X, Reddit, Gab, Telegram, Facebook", "definition": "Platforms with broader protections beyond core traits." }
+                { "name": "TikTok, Bluesky, X/Twitter", "definition": "Platforms with broader protections beyond core traits." }
               ]
             }
           ]
@@ -1161,7 +1160,7 @@ const platformData = {
               "name": "Contextual Balance",
               "definition": "Moderation decisions consider satire, reporting, education, and intent.",
               "children": [
-                { "name": "Reddit, Bluesky, Twitter/X", "definition": "Platforms considering contextual cues before acting against content." }
+                { "name": "Reddit, Bluesky, X", "definition": "Platforms considering contextual cues before acting against content." }
               ]
             },
             { 
@@ -1293,14 +1292,14 @@ const platformData = {
           "name": "High Transparency",
           "definition": "Regular enforcement reports, research APIs, and structured oversight.",
           "children": [
-            { "name": "Facebook, TikTok", "definition": "Platforms with strong reporting and oversight mechanisms." }
+            { "name": "Meta, TikTok", "definition": "Platforms with strong reporting and oversight mechanisms." }
           ]
         },
         { 
           "name": "Moderate Transparency",
           "definition": "Some public reports and partial data access.",
           "children": [
-            { "name": "Reddit, Twitter/X", "definition": "Provide limited reports and restricted data access." }
+            { "name": "Reddit, X", "definition": "Provide limited reports and restricted data access." }
           ]
         },
         { 
@@ -2186,9 +2185,6 @@ const datasetData = {
 
 
 
-
-
-
 let data =merged;                    // default
   const svg = d3.select("#tree");
   let g; // group for pan/zoom content
@@ -2989,6 +2985,7 @@ function renderSearchPopup(query) {
 
 
 }); // DOMContentLoaded end
+
 
 
 
