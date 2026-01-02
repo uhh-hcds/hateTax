@@ -21,7 +21,7 @@ const merged = {
                   "name": "Legalistic Definitions",
                   "definition": "Definitions grounded in protected characteristics under international human rights frameworks.",
                   "children": [
-                    { "name": "Facebook, TikTok, X/Twitter", "definition": "Platforms using legalistic, rights-based definitions of hate speech." }
+                    { "name": "Facebook, TikTok, Twitter/X", "definition": "Platforms using legalistic, rights-based definitions of hate speech." }
                   ]
                 },
                 { 
@@ -48,14 +48,14 @@ const merged = {
                   "name": "Core Traits",
                   "definition": "Race, religion, gender, sexual orientation—covered by all major platforms.",
                   "children": [
-                    { "name": "All platforms", "definition": "Every platform includes a baseline set of core protected attributes." }
+                    { "name": "TikTok, Bluesky, Twitter/X, Gab, Telegram, Reddit, Facebook", "definition": "Every platform includes a baseline set of core protected attributes." }
                   ]
                 },
                 { 
                   "name": "Extended Traits",
                   "definition": "Additional traits such as disability, caste, disease, immigration status, or political affiliation.",
                   "children": [
-                    { "name": "TikTok, Bluesky, X/Twitter", "definition": "Platforms with broader protections beyond core traits." }
+                    { "name": "TikTok, Bluesky, Twitter/X", "definition": "Platforms with broader protections beyond core traits." }
                   ]
                 }
               ]
@@ -101,7 +101,7 @@ const merged = {
                   "name": "Contextual Balance",
                   "definition": "Moderation decisions consider satire, reporting, education, and intent.",
                   "children": [
-                    { "name": "Reddit, Bluesky, X", "definition": "Platforms considering contextual cues before acting against content." }
+                    { "name": "Reddit, Bluesky, Twitter/X", "definition": "Platforms considering contextual cues before acting against content." }
                   ]
                 },
                 { 
@@ -230,14 +230,14 @@ const merged = {
               "name": "High Transparency",
               "definition": "Regular enforcement reports, research APIs, and structured oversight.",
               "children": [
-                { "name": "Meta, TikTok", "definition": "Platforms with strong reporting and oversight mechanisms." }
+                { "name": "Facebook, TikTok", "definition": "Platforms with strong reporting and oversight mechanisms." }
               ]
             },
             { 
               "name": "Moderate Transparency",
               "definition": "Some public reports and partial data access.",
               "children": [
-                { "name": "Reddit, X", "definition": "Provide limited reports and restricted data access." }
+                { "name": "Reddit, Twitter/X", "definition": "Provide limited reports and restricted data access." }
               ]
             },
             { 
@@ -1080,7 +1080,7 @@ const platformData = {
               "name": "Legalistic Definitions",
               "definition": "Definitions grounded in protected characteristics under international human rights frameworks.",
               "children": [
-                { "name": "Facebook, TikTok, X/Twitter", "definition": "Platforms using legalistic, rights-based definitions of hate speech." }
+                { "name": "Facebook, TikTok, Twitter/X", "definition": "Platforms using legalistic, rights-based definitions of hate speech." }
               ]
             },
             { 
@@ -1107,14 +1107,14 @@ const platformData = {
               "name": "Core Traits",
               "definition": "Race, religion, gender, sexual orientation—covered by all major platforms.",
               "children": [
-                { "name": "All platforms", "definition": "Every platform includes a baseline set of core protected attributes." }
+                { "name": "Twitter/X, Gab, Telegram,", "definition": "Every platform includes a baseline set of core protected attributes." }
               ]
             },
             { 
               "name": "Extended Traits",
               "definition": "Additional traits such as disability, caste, disease, immigration status, or political affiliation.",
               "children": [
-                { "name": "TikTok, Bluesky, X/Twitter", "definition": "Platforms with broader protections beyond core traits." }
+                { "name": "TikTok, Bluesky, Twitter/X, Reddit, Gab, Telegram, Facebook", "definition": "Platforms with broader protections beyond core traits." }
               ]
             }
           ]
@@ -1161,7 +1161,7 @@ const platformData = {
               "name": "Contextual Balance",
               "definition": "Moderation decisions consider satire, reporting, education, and intent.",
               "children": [
-                { "name": "Reddit, Bluesky, X", "definition": "Platforms considering contextual cues before acting against content." }
+                { "name": "Reddit, Bluesky, Twitter/X", "definition": "Platforms considering contextual cues before acting against content." }
               ]
             },
             { 
@@ -1293,14 +1293,14 @@ const platformData = {
           "name": "High Transparency",
           "definition": "Regular enforcement reports, research APIs, and structured oversight.",
           "children": [
-            { "name": "Meta, TikTok", "definition": "Platforms with strong reporting and oversight mechanisms." }
+            { "name": "Facebook, TikTok", "definition": "Platforms with strong reporting and oversight mechanisms." }
           ]
         },
         { 
           "name": "Moderate Transparency",
           "definition": "Some public reports and partial data access.",
           "children": [
-            { "name": "Reddit, X", "definition": "Provide limited reports and restricted data access." }
+            { "name": "Reddit, Twitter/X", "definition": "Provide limited reports and restricted data access." }
           ]
         },
         { 
@@ -2226,6 +2226,44 @@ function getTopLevelColor(d) {
     
 
 
+
+let data =merged;                    // default
+  const svg = d3.select("#tree");
+  let g; // group for pan/zoom content
+  let zoom;
+  let treeLayout;
+  let root;
+  let nodeIdCounter = 0;
+  let selectedNode = null;
+  let radial = false;
+  const topLevelColors = {
+  "Platform Policy Taxonomy": "#4f6ef7",   // blue
+  "Country Regulation Taxonomy": "#e57373", // red
+  "Hate Speech Dataset Taxonomy": "#81c784" // green
+};
+function getTopLevelColor(d) {
+  // climb to depth 1 ancestor
+  let node = d;
+  while (node.depth > 1 && node.parent) {
+    node = node.parent;
+  }
+
+  // if this is depth 1 and exists in map → apply color
+  if (node.depth === 1 && topLevelColors[node.data.name]) {
+    return topLevelColors[node.data.name];
+  }
+
+  return null;
+}
+
+  // Tooltip
+  const tooltip = d3.select("body")
+    .append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+    
+
+
   // ---------- Init tree ----------
   function initTree() {
     svg.selectAll("*").remove();
@@ -2256,6 +2294,15 @@ function getTopLevelColor(d) {
     svg.transition().duration(300)
       .call(zoom.transform, d3.zoomIdentity.translate(width / 6, 50).scale(1));
   }
+  function getNodeDefinition(node) {
+  if (!node || !node.data) return "";
+  return (
+    node.data.definition ||
+    node.data.defination ||
+    node.data.description ||
+    "No description"
+  );
+}
 
   // ---------- Collapse / Expand helpers ----------
   function collapse(d) { if (d.children) { d._children = d.children; d._children.forEach(collapse); d.children = null; } }
@@ -2460,130 +2507,126 @@ d3.selectAll("g.node text").style("font-size", currentFontSize + "px");
   // build grouped results where each entry maps ParentCategory -> ChildCategory -> childDefinition(s)
 function searchAndBuildResults(query) {
   const q = query.trim().toLowerCase();
-  if (!q) return { groups: {}, taxonomy: getCurrentTaxonomyName(), matchedLeaves: [] };
+  if (!q) {
+    return { groups: {}, taxonomy: getCurrentTaxonomyName(), matchedLeaves: [] };
+  }
 
   const all = flattenAllNodes(root);
 
-  // find leaf nodes that match name or definition (case-insensitive)
-  const matchedLeaves = all.filter(n => isLeafNode(n) &&
+  // find matching leaf nodes
+  const matchedLeaves = all.filter(n =>
+    isLeafNode(n) &&
     (
       (n.data.name && n.data.name.toLowerCase().includes(q)) ||
       ((n.data.definition || n.data.defination || n.data.description) &&
-       (n.data.definition || n.data.defination || n.data.description).toLowerCase().includes(q))
+        (n.data.definition || n.data.defination || n.data.description)
+          .toLowerCase()
+          .includes(q))
     )
   );
 
-  const groups = {}; // { parentCategoryName: { childCategoryName: Set(definitions) } }
+  /*
+    groups structure (NEW):
+    {
+      ParentName: {
+        ChildName: {
+          parentNode: D3Node,
+          childNode: D3Node
+        }
+      }
+    }
+  */
+  const groups = {};
 
   matchedLeaves.forEach(leaf => {
-    // build path from root to leaf
-    const fullPath = [];
+
+    // build full path root → leaf
+    const path = [];
     let p = leaf;
-    while (p) { fullPath.unshift(p); p = p.parent; }
-
-    // remove overall root (first element)
-    const pathExRoot = fullPath.slice(1); // nodes from first-level under root to leaf
-
-    if (pathExRoot.length === 0) {
-      // leaf is the root node itself — skip
-      return;
+    while (p) {
+      path.unshift(p);
+      p = p.parent;
     }
 
-    // childCategory: node immediately above the leaf (node before the last element)
-    // (if leaf is directly under top-level, childCategory becomes that top-level node)
-    const childIndex = Math.max(0, pathExRoot.length - 2);
-    const childCategoryNode = pathExRoot[childIndex];
-    const childCategory = childCategoryNode && childCategoryNode.data.name ? childCategoryNode.data.name : "(No child)";
+    // remove global root
+    const pathExRoot = path.slice(1);
+    if (pathExRoot.length === 0) return;
 
-    // parentCategory: the node one level above the childCategory, when available
-    // (This yields 'Severity Structure' in your example)
-    let parentCategoryNode;
-    if (pathExRoot.length >= 3) {
-      parentCategoryNode = pathExRoot[pathExRoot.length - 3];
-    } else {
-      // fallback to the top-level node (first item after root)
-      parentCategoryNode = pathExRoot[0];
+    // child = node just above leaf
+    const childNode =
+      pathExRoot.length >= 2
+        ? pathExRoot[pathExRoot.length - 2]
+        : pathExRoot[0];
+
+    // parent = node above child (fallback to top-level)
+    const parentNode =
+      pathExRoot.length >= 3
+        ? pathExRoot[pathExRoot.length - 3]
+        : pathExRoot[0];
+
+    const parentName = parentNode.data.name || "(No parent)";
+    const childName = childNode.data.name || "(No child)";
+
+    if (!groups[parentName]) groups[parentName] = {};
+    if (!groups[parentName][childName]) {
+      groups[parentName][childName] = {
+        parentNode,
+        childNode
+      };
     }
-    const parentCategory = (parentCategoryNode && parentCategoryNode.data.name) ? parentCategoryNode.data.name : "(No parent)";
-
-    // Use the child's own definition (prefer `definition`, then `defination`, then `description`)
-    const childDef = childCategoryNode.data.definition || childCategoryNode.data.defination || childCategoryNode.data.description || "No description";
-
-    // initialize structures
-    if (!groups[parentCategory]) groups[parentCategory] = {};
-    if (!groups[parentCategory][childCategory]) groups[parentCategory][childCategory] = new Set();
-
-    // store the child's definition (use set to avoid duplicates)
-    groups[parentCategory][childCategory].add(childDef);
   });
 
-  // convert sets to arrays
-  const normalized = {};
-  Object.keys(groups).forEach(parent => {
-    normalized[parent] = {};
-    Object.keys(groups[parent]).forEach(child => {
-      normalized[parent][child] = Array.from(groups[parent][child]);
-    });
-  });
-
-  return { groups: normalized, taxonomy: getCurrentTaxonomyName(), matchedLeaves };
+  return {
+    groups,
+    taxonomy: getCurrentTaxonomyName(),
+    matchedLeaves
+  };
 }
-  
-
 
 
   // ---------- Render search popup in requested format ----------
-  function renderSearchPopup(query) {
-    const result = searchAndBuildResults(query);
-    const popup = document.getElementById("profilePopup");
-    const titleEl = document.getElementById("profileTitle");
-    const contentEl = document.getElementById("profileContent");
-    const badgeEl = document.getElementById("profileTaxonomyBadge");
 
-    // Reset
-    contentEl.innerHTML = "";
-    titleEl.textContent = `${query} Profile`;
-    if (badgeEl) badgeEl.textContent = result.taxonomy || getCurrentTaxonomyName();
+function renderSearchPopup(query) {
+  const result = searchAndBuildResults(query);
+  const popup = document.getElementById("profilePopup");
+  const titleEl = document.getElementById("profileTitle");
+  const contentEl = document.getElementById("profileContent");
+  const badgeEl = document.getElementById("profileTaxonomyBadge");
 
-    if (!result.groups || Object.keys(result.groups).length === 0) {
-      contentEl.innerHTML = `<div class="important"><strong>No matches found.</strong></div>`;
-      popup.style.display = "block";
-      clearHighlights();
-      return;
-    }
+  contentEl.innerHTML = "";
+  titleEl.textContent = `${query} Profile`;
+  if (badgeEl) badgeEl.textContent = result.taxonomy;
 
-    // Output format required by user:
-    // ParentCategory: ChildCategory
-    // <child's definition>
-    // (grouped and deduplicated)
-
-    Object.keys(result.groups).forEach(parentName => {
-      const childMap = result.groups[parentName];
-      Object.keys(childMap).forEach(childName => {
-        // Header line
-        const headerDiv = document.createElement("div");
-        headerDiv.style.marginTop = "8px";
-        headerDiv.style.marginBottom = "4px";
-        headerDiv.innerHTML = `<strong>${escapeHtml(parentName)}: ${escapeHtml(childName)}</strong>`;
-        contentEl.appendChild(headerDiv);
-
-        // For each definition associated with that child
-        childMap[childName].forEach(defText => {
-          const defDiv = document.createElement("div");
-          defDiv.style.marginLeft = "8px";
-          defDiv.style.marginBottom = "6px";
-          defDiv.textContent = defText;
-          contentEl.appendChild(defDiv);
-        });
-      });
-    });
-
-    // Highlight matched leaves
-    clearHighlights();
-    if (result.matchedLeaves && result.matchedLeaves.length > 0) highlightNodes(result.matchedLeaves);
-
+  if (!result.groups || Object.keys(result.groups).length === 0) {
+    contentEl.innerHTML = `<strong>No matches found.</strong>`;
     popup.style.display = "block";
+    clearHighlights();
+    return;
   }
+
+  Object.keys(result.groups).forEach(parentName => {
+    const childMap = result.groups[parentName];
+
+    Object.keys(childMap).forEach(childName => {
+      const headerDiv = document.createElement("div");
+      headerDiv.innerHTML = `<strong>${parentName}: ${childName}</strong>`;
+      headerDiv.style.marginTop = "8px";
+      contentEl.appendChild(headerDiv);
+
+      const defDiv = document.createElement("div");
+      defDiv.style.marginLeft = "10px";
+      defDiv.textContent =
+        getNodeDefinition(childMap[childName].childNode);
+
+      contentEl.appendChild(defDiv);
+    });
+  });
+
+  clearHighlights();
+  highlightNodes(result.matchedLeaves);
+  popup.style.display = "block";
+}
+
 
   // escapeHtml helper for safe header insertion
   function escapeHtml(str) {
@@ -2834,6 +2877,7 @@ function searchAndBuildResults(query) {
     link.download = `${title}.txt`;
     link.click();
   });
+  // Download profile JSON
 
   const downloadJson = document.getElementById("downloadProfilePdf");
   if (downloadJson) downloadJson.addEventListener("click", () => {
@@ -2847,10 +2891,28 @@ function searchAndBuildResults(query) {
   const query = queryInput.value.trim();
   const result = searchAndBuildResults(query);
 
+  const exportResults = Object.entries(result.groups).map(
+    ([parentName, children]) => ({
+      parent: {
+        name: parentName,
+        definition: getNodeDefinition(
+          children[Object.keys(children)[0]].parentNode
+        )
+      },
+      children: Object.entries(children).map(
+        ([childName, entry]) => ({
+          name: childName,
+          definition: getNodeDefinition(entry.childNode)
+        })
+      )
+    })
+  );
+
   const jsonData = {
     taxonomy: result.taxonomy,
-    query: query,
-    results: result.groups
+    query,
+    total_matches: exportResults.length,
+    results: exportResults
   };
 
   const blob = new Blob(
@@ -2858,7 +2920,7 @@ function searchAndBuildResults(query) {
     { type: "application/json" }
   );
 
-  const fileName = `${query.replace(/\s+/g, "_")}.json`;
+  const fileName = `${query.replace(/\s+/g, "_")}_with_parents.json`;
 
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
@@ -2927,6 +2989,9 @@ function searchAndBuildResults(query) {
 
 
 }); // DOMContentLoaded end
+
+
+
 
 
 
